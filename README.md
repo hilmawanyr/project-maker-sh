@@ -57,46 +57,49 @@ test
 
 ## 🛠️ How to Make the Script Globally Executable
 
-Agar perintah `create_project` bisa dijalankan dari direktori mana pun di terminal, lakukan langkah-langkah berikut:
+Agar perintah `create_project` bisa dijalankan dari direktori mana pun di terminal, cukup buat symbolic link (symlink) ke dalam direktori yang ada di `PATH`.
 
 ---
 
 ### ✅ For macOS and Linux
 
-#### 1. Save the Script
+#### 1. Simpan Script
 
-Simpan isi script ke dalam file `create_project.sh` di direktori `Home (~)`:
-
-```bash
-nano ~/create_project.sh
-# (Tempelkan isi script, lalu tekan Ctrl+O, Enter, dan Ctrl+X)
-```
-
-#### 2. Beri Hak Eksekusi
+Simpan isi script ke file `create_project.sh` di direktori mana pun, misalnya di `~/scripts`:
 
 ```bash
-chmod +x ~/create_project.sh
+mkdir -p ~/scripts
+nano ~/scripts/create_project.sh
+# (Tempelkan isi script, simpan dengan Ctrl+O, Enter, lalu keluar Ctrl+X)
 ```
 
-#### 3. Pindahkan Script ke Direktori PATH
+#### 2. Beri Izin Eksekusi
+
+```bash
+chmod +x ~/scripts/create_project.sh
+```
+
+#### 3. Buat Symlink ke PATH
+
+Misalnya kita ingin menautkan ke `~/bin`:
 
 ```bash
 mkdir -p ~/bin
-mv ~/create_project.sh ~/bin/create_project
+ln -s ~/scripts/create_project.sh ~/bin/create_project
 ```
 
-#### 4. Tambahkan ~/bin ke PATH (Jika belum)
+#### 4. Tambahkan `~/bin` ke PATH (Jika belum)
 
-Edit konfigurasi shell (`~/.zshrc`, `~/.bashrc`, atau `~/.profile`) dan tambahkan:
+Edit file shell config (`~/.zshrc`, `~/.bashrc`, atau `~/.profile`) dan tambahkan:
 
 ```bash
 export PATH="$HOME/bin:$PATH"
 ```
 
-Kemudian muat ulang:
+Lalu muat ulang shell:
 
 ```bash
-source ~/.zshrc  # Atau ~/.bashrc / ~/.profile sesuai shell yang digunakan
+source ~/.zshrc  # atau ~/.bashrc / ~/.profile tergantung shell kamu
 ```
 
 ---
@@ -109,49 +112,47 @@ source ~/.zshrc  # Atau ~/.bashrc / ~/.profile sesuai shell yang digunakan
    Download dari: [https://git-scm.com/download/win](https://git-scm.com/download/win)
 
 2. **Simpan Script**
-   Simpan file `create_project.sh` di folder seperti `C:\Users\YourUser\Documents`
+   Simpan sebagai `create_project.sh`, misalnya di: `C:\Users\YourUser\Documents\scripts`
 
-3. **Buka Git Bash** dan navigasi ke lokasi script:
+3. **Buka Git Bash**, navigasikan ke direktori script:
 
 ```bash
-cd /c/Users/YourUser/Documents
+cd /c/Users/YourUser/Documents/scripts
 chmod +x create_project.sh
 ```
 
-4. **Pindahkan ke PATH Git Bash**
+4. **Buat Symlink ke `~/bin`**
 
 ```bash
 mkdir -p ~/bin
-mv create_project.sh ~/bin/create_project
+ln -s /c/Users/YourUser/Documents/scripts/create_project.sh ~/bin/create_project
 ```
 
-Tutup dan buka kembali Git Bash untuk memastikan `PATH` diperbarui.
+Tutup dan buka ulang Git Bash.
 
 ---
 
-#### 🐧 Menggunakan Windows Subsystem for Linux (WSL)
+#### 🐧 Menggunakan WSL
 
 1. **Install WSL**
-   Ikuti panduan dari Microsoft:
-   [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install)
+   Ikuti: [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-2. **Buka Terminal WSL** (misal "Ubuntu")
+2. **Simpan Script**
+   Simpan di direktori home WSL, misalnya `~/scripts/create_project.sh`
 
-3. **Ikuti Langkah seperti di macOS/Linux**, simpan script dalam filesystem WSL (`~`) atau gunakan `/mnt/c/` untuk mengakses file dari drive Windows.
+3. **Ikuti langkah yang sama seperti di macOS/Linux**
 
 ---
 
 ## 🚀 How to Use the Script
 
-Setelah script dapat dijalankan secara global, kamu bisa menjalankannya dengan dua cara:
+Setelah script disiapkan, kamu bisa menjalankannya seperti ini:
 
 ### 1. Buat proyek di direktori saat ini (default):
 
 ```bash
 create_project my-new-application
 ```
-
-Akan membuat folder `my-new-application` di direktori saat ini.
 
 ### 2. Buat proyek di direktori tertentu:
 
@@ -163,10 +164,10 @@ create_project another-application /path/to/your/projects
 
 ```bash
 create_project my_backend
-# Akan dibuat di: /home/user/my_backend (jika sedang di /home/user)
+# Akan dibuat di: /home/user/my_backend
 
 create_project my_backend /var/www/html
 # Akan dibuat di: /var/www/html/my_backend
 ```
 
-Untuk pengguna Git Bash/WSL, gunakan path bergaya Linux seperti `/c/Users/YourUser/Documents`.
+Untuk Git Bash/WSL, gunakan path bergaya Linux seperti `/c/Users/YourUser/Documents`.
